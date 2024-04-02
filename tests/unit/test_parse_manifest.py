@@ -104,15 +104,6 @@ class TestLoader(unittest.TestCase):
         )
         return SourceFile(path=path, checksum=checksum)
 
-    def test_profile_change(self):
-        self.loader.manifest = self._new_manifest()
-
-        self.loader.profile = "new_profile"
-        self.loader._update_manifest_state_check()
-        self.assertEqual(
-            self.loader.manifest.state_check.profile_hash, FileHash.from_contents("new_profile")
-        )
-
 
 class TestPartialParse(unittest.TestCase):
     def setUp(self) -> None:

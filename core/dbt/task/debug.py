@@ -273,10 +273,11 @@ class DebugTask(BaseTask):
         # try to guess
 
         profiles = []
+        summary_message = "Could not load dbt_project.yml\n"
         if self.raw_profile_data:
             profiles = [k for k in self.raw_profile_data if k != "config"]
             if project_profile is None:
-                summary_message = "Could not load dbt_project.yml\n"
+                summary_message = "The dbt_project.yml has no profile\n"
             elif len(profiles) == 0:
                 summary_message = "The profiles.yml has no profiles\n"
             elif len(profiles) == 1:

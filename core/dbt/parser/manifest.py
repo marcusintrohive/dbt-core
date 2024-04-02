@@ -988,10 +988,15 @@ class ManifestLoader:
             env_var_str += f"{key}:{config.profile_env_vars[key]}|"
         profile_env_vars_hash = FileHash.from_contents(env_var_str)
 
-        # Create a FileHash of the profile file
-        profile_path = os.path.join(get_flags().PROFILES_DIR, "profiles.yml")
-        with open(profile_path) as fp:
-            profile_hash = FileHash.from_contents(fp.read())
+        # Create a hash of the connection keys, which user has access to in
+        # jinja context. Thus keys here may affect the parsing result.
+
+        # Renaming this variable mean that we will have to do a whole lot more
+        # change to make sure the previous manifest can be loaded correctly.
+        # This is an example of naming should be chosen based on the functionality
+        # rather than the implementation details.
+        connection_keys = config.credentials._connection_keys()
+        profile_hash = FileHash.from_contents(pprint.pformat(connection_keys))
 
         # Create a FileHashes for dbt_project for all dependencies
         project_hashes = {}

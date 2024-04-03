@@ -134,14 +134,14 @@ class TestPartialParse(unittest.TestCase):
         # if specified in flags, we use the specified path
         patched_open.assert_called_with("specified_partial_parse_path", "rb")
 
-    def test_partial_parse_profile_change(self):
+    def test_profile_hash_change(self):
         # This test validate that the profile_hash is updated when the connection keys change
-        profile_hash = "6e94a0aef218fd7aef18b257f0ba9fc33c92a2bc9788fc751868e43ab398137f"
-        self.mock_project.credentials._connection_keys.return_value = "test"
+        profile_hash = "7644083797ea2d42b4e7bb1ed4751afc1d8c9566980083c96af826c3486d3531"
+        self.mock_project.credentials.connection_info.return_value = "test"
         set_from_args(Namespace(), {})
         manifest = ManifestLoader(self.mock_project, {})
         assert manifest.manifest.state_check.profile_hash.checksum == profile_hash
-        self.mock_project.credentials._connection_keys.return_value = "test1"
+        self.mock_project.credentials.connection_info.return_value = "test1"
         manifest = ManifestLoader(self.mock_project, {})
         assert manifest.manifest.state_check.profile_hash.checksum != profile_hash
 

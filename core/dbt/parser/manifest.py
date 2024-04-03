@@ -988,14 +988,15 @@ class ManifestLoader:
             env_var_str += f"{key}:{config.profile_env_vars[key]}|"
         profile_env_vars_hash = FileHash.from_contents(env_var_str)
 
-        # Create a hash of the connection keys, which user has access to in
-        # jinja context. Thus keys here may affect the parsing result.
+        # Create a hash of the connection_info, which user has access to in
+        # jinja context. Thus attributes here may affect the parsing result.
+        # Ideally we should not expose all of the connection info to the jinja.
 
         # Renaming this variable mean that we will have to do a whole lot more
         # change to make sure the previous manifest can be loaded correctly.
         # This is an example of naming should be chosen based on the functionality
         # rather than the implementation details.
-        connection_keys = config.credentials._connection_keys()
+        connection_keys = list(config.credentials.connection_info())
         profile_hash = FileHash.from_contents(pprint.pformat(connection_keys))
 
         # Create a FileHashes for dbt_project for all dependencies

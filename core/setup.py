@@ -63,7 +63,7 @@ setup(
         "dbt-extractor~=0.4.1",
         "typing-extensions>=3.7.4",
         "werkzeug>=1,<3",
-        "pathspec>=0.9,<0.12",
+        "pathspec>=0.9,<0.13",
         "protobuf>=4.0.0",
         "pytz>=2015.7",
         # the following are all to match snowflake-connector-python
